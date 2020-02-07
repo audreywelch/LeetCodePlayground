@@ -2,7 +2,7 @@
 //  E - Rotate Image.swift
 //  
 //
-//  Created by Audrey Welch on 2/5/20.
+//  Created by Audrey Welch on 2/6/20.
 //
 
 import Foundation
@@ -50,8 +50,12 @@ import Foundation
    [16, 7,10,11]
  ]
  
+ ** REMEMBER to comment out previous method calls so that
+    you are not rotating a formerly rotated array and get confused :)
  
  */
+
+// SOLUTION #1
 
 func rotate(_ matrix: inout [[Int]]) {
     
@@ -109,31 +113,74 @@ rotate(&inputMatrix2)
 //  [16, 7,10,11]
 //]
 
+// *****************************
 
 
+// SOLUTION #2
+// Common method to solve image rotation problems
+// For clockwise rotation:
+// First reverse up to down
+// Then swap the symmetry (x, y) = (y, x)
 
-func rotate90(_ matrix: inout [[Int]]) {
- 
-    var dict : [[Int] : Int] = [:]
-    var count = matrix.count-1
+/*
+ 1 2 3      7 8 9      7 4 1
+ 4 5 6  =>  4 5 6  =>  8 5 2
+ 7 8 9      1 2 3      9 6 3
+ */
+
+func rotateReverseSwapMethod(_ matrix: inout [[Int]]) {
     
+    // Check that the matrix has more than one array in it
+    guard matrix.count > 1 else { return }
     
-    // saving to dictionary under the new coordinates
-    for i in 0..<matrix.count{
-        for j in 0..<matrix[i].count{
+    // Make sure the matrix is a square
+    guard matrix[0].count == matrix.count else { return }
+    
+    // Save the count of the number of arrays
+    let count = matrix.count
+    
+    // Reverse the arrays in the matrix
+    matrix.reverse()
+    
+    // Loop through each array in the matrix
+    for i in 0..<count {
+        
+        // Loop through the elements in the array,
+        // not including 0,0
+        for j in i + 1..<count {
             
-            dict[[j, count-i]] = matrix[i][j]
-                         
+            // Swap the symmetry
+            (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j])
         }
     }
-    
-    
-    // updating the matrix values
-    for i in 0..<matrix.count{
-        for j in 0..<matrix[i].count{
-            matrix[i][j] = dict[[i,j]]!
-        }
-    }
-    
-    
 }
+
+rotateReverseSwapMethod(&inputMatrix1)
+
+// *****************************
+
+// SOLUTION #3
+// Swap then reverse
+
+func rotateSwapThenReverseMethod(_ matrix: inout [[Int]]) {
+    
+    // Loop through each array in the matrix
+    for i in 0..<matrix.count {
+        
+        // Loop through each element from the second to the end of the array
+        for j in i+1..<matrix[i].count {
+            
+            // Keep track of the element getting replaced
+            let t = matrix[i][j]
+            
+            // Swap the symmetry
+            matrix[i][j] = matrix[j][i]
+            matrix[j][i] = t
+        }
+        
+        // Reverse the arrays
+        matrix[i].reverse()
+    }
+}
+
+rotateSwapThenReverseMethod(&inputMatrix1)
