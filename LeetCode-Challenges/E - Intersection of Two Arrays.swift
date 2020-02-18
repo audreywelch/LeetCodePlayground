@@ -111,3 +111,79 @@ func intersection2Pointers(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
 
 intersection2Pointers(nums1, nums2) // [9, 4]
 intersection2Pointers([1, 2, 2, 1], [2, 2]) // [2]
+
+
+
+/*
+ 
+ Given two arrays, write a function to compute their intersection.
+ 
+ Example 1:
+ > nums1 = [1, 2, 2, 1], nums2 = [2, 2]
+ > [2]
+ 
+ Example 2:
+ > nums1 = [4, 9, 5], nums2 = [9, 4, 9, 8, 4]
+ > [9,4]
+ 
+ Note:
+ > Each element in the result must be unique.
+ > The result can be in any order.
+ 
+ */
+
+// DICTIONARY SOLUTION
+func intersectionOfTwoArrays(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+    
+    var result: [Int] = []
+    
+    /*
+     
+     PLAN
+     
+     Create a dictionary that stores each of the numbers in the first array (smaller array)
+     number: count
+     
+     Iterate through the second array
+     If the dictionary contains the element
+     Add the element to the result array
+     Remove the element from the array, in order to not add duplicates
+     
+     */
+    
+    var dict: [Int: Int] = [:]
+    
+    for i in 0..<nums1.count {
+        
+        // If the element is already in the array, add to the count
+        if let count = dict[nums1[i]] {
+            dict[nums1[i]] = count + 1
+            
+        // If not, set the count to 1
+        } else {
+            dict[nums1[i]] = 1
+        }
+    }
+    
+    print(dict)
+    
+    for i in 0..<nums2.count {
+        
+        // If the dictionary contains the element
+        if dict[nums2[i]] != nil {
+            // Add it to the result array
+            result.append(nums2[i])
+            
+            // Remove it from the dictionary to avoid repeats
+            dict.removeValue(forKey: nums2[i])
+            print("removing value for key: \(nums2[i])")
+            print(dict)
+        }
+    }
+    
+    
+    return result
+}
+
+intersectionOfTwoArrays([1, 2, 2, 1], [2, 2])
+intersectionOfTwoArrays([4, 9, 5], [9, 4, 9, 8, 4])
