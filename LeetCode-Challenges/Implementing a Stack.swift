@@ -7,7 +7,38 @@
 
 import Foundation
 
-// Functions: PUSH and POP
+// Functions: PUSH and POP and PEEK
+
+/*
+ 
+ Why would you want to use a stack?
+    > In many algorithms you want to add objects to a temporary list at some point and then pull them off this list again at a later time. Often, the order in which you add and remove these objects matter.
+ 
+    > A stack gives you a LIFO - Last-in, First-out order.
+
+ */
+
+struct Stack1 {
+    
+    // Interact with the array to implement the push/pop/peek methods
+    fileprivate var array: [String] = []
+    
+    // PUSH O(1)
+    // Use end of the array for pushing and popping because it's a less expensive operation
+    mutating func push(_ element: String) {
+        array.append(element)
+    }
+    
+    // POP
+    mutating func pop() -> String? {
+        return array.popLast()
+    }
+    
+    // PEEK
+    func peek() -> String? {
+        return array.last
+    }
+}
 
 // A linked list data structure supports this functionality
 
