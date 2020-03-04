@@ -8,31 +8,35 @@
 import Foundation
 
 /*
+ 
+ Efficiency: O(log n) for insertion and lookup
+ 
+ *Greatest Advantage: speed - since data is organized at time of insertion, a clear pattern emerges where all values less than the "root" will naturally filter to the left and vice versa.
+ 
+ Insert
+     if insertion point is found
+         create new vertex
+     if value to be inserted < this key
+         go left
+     else go right
 
-Insert
-    if insertion point is found
-        create new vertex
-    if value to be inserted < this key
-        go left
-    else go right
+ Contains
+     if this == null
+         return null
+     else if this key == search value
+         return this
+     else if this key < search value
+         search right
+     else search left
 
-Contains
-    if this == null
-        return null
-    else if this key == search value
-        return this
-    else if this key < search value
-        search right
-    else search left
-
-Get Max
-    if this is null return empty
-    if right != null
-        go right
-    else return this key
-
-
-*/
+ Get Max
+     if this is null return empty
+     if right != null
+         go right
+     else return this key
+ 
+ 
+ */
 
 class BinarySearchTree {
     
@@ -45,14 +49,22 @@ class BinarySearchTree {
         
     }
     
+    // INSERT
     // Takes in the starting node and the value to be inserted
-    func insert(node: BinarySearchTree, value: Int) {
+    func insert(value: Int) {
         
+        // If there is no head node
+        if self.value == nil {
+            self.value = value
+            return
+        }
+        
+        // Check left side of the tree
         // If new value is less than current value (root)
-        if value < node.value {
+        if value < self.value {
             
             // If there is no node on the left
-            if node.left == nil {
+            if self.left == nil {
                 
                 // Create a new binary search tree with the value
                 self.left = BinarySearchTree(value: value)
@@ -62,16 +74,17 @@ class BinarySearchTree {
                 
                 // Recursively call itself (insert) until it finds an empty leaf space
                 // to instantiate a new binary search tree
-                insert(node: node.left!, value: value)
+                left!.insert(value: value)
             }
             
+        // Check right side of tree
         // If new value is greater than the current/root
-        } else if value >= node.value {
+        } else if value >= self.value {
             
-            if node.right == nil {
-                node.right = BinarySearchTree(value: value)
+            if self.right == nil {
+                self.right = BinarySearchTree(value: value)
             } else {
-                insert(node: node.right!, value: value)
+                right!.insert(value: value)
             }
         }
         
