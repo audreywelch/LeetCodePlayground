@@ -81,3 +81,22 @@ func moveZeroesSwap(_ nums: inout [Int]) {
 }
 
 moveZeroesSwap(&inputArray) // [[1, 3, 12, 0, 0]]
+
+
+// THIS DOESN'T WORK
+func moveZeroes2(_ nums: inout [Int]) {
+
+    for i in 0..<nums.count {
+        
+        if nums[i] == 0 {
+            nums.remove(at: i)
+            nums.append(0)
+        }
+    }
+}
+
+var input = [0,1,0,3,12]
+var input2 = [0, 0, 1]
+moveZeroes(&input)
+moveZeroes2(&input2)
+
