@@ -158,3 +158,30 @@ func maxProfitBruteForce(_ prices: [Int]) -> Int {
 maxProfitBruteForce(input1) // 7
 maxProfitBruteForce(input2) // 4
 maxProfitBruteForce(input3) // 0
+
+/*
+ 
+ // GREEDY APPROACH
+ 
+ > Our function traverses the array of prices in a greedy fashion, keeping track of both the max profit we've seen up to that point as well as the min price we've seen so far.
+ 
+ > On the next iteration, update our variables if we find a higher max profit and/or a new min price.
+ 
+ > In the case that we receive an array of all descending prices, our function will return the least negative value, though this is simply a design choice. The interviewee could choose to return 0 instead if the function would return a negative value.
+ 
+ */
+
+func findMaxProfit(prices: [Int]) -> Int {
+    
+    var minPrice = prices[0]
+    
+    var maxProfit = prices[1] - minPrice
+    
+    for currentPrice in prices[1]..<prices[prices.count] {
+        maxProfit = max(currentPrice - minPrice, maxProfit)
+        minPrice = min(currentPrice, minPrice)
+    }
+    
+    return maxProfit
+    
+}
