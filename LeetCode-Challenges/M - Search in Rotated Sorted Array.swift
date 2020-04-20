@@ -85,3 +85,68 @@ func search(_ nums: [Int], _ target: Int) -> Int {
 search([4, 5, 6, 7, 0, 1, 2], 0) // 4
 search([4,5,6,7,0,1,2], 3) // -1
 search([1, 2, 4, 5, 6, 7, 0], 0) // 6
+
+// ----------------------------------
+// April 20, 2020
+
+// O(n)
+func search1(_ nums: [Int], _ target: Int) -> Int {
+    
+    // If first index is greater than the target, start looking from the end of the array
+    
+    for (i, num) in nums.enumerated() {
+        if num == target {
+            return i
+        }
+    }
+    
+    return -1
+}
+
+search1([4, 5, 6, 7, 0, 1, 2], 0) // 4
+search1([4, 5, 6, 7, 0, 1, 2], 3) // -1
+
+// O(log n)
+// Binary Search
+func searchLog(_ nums: [Int], _ target: Int) -> Int {
+    
+    var high: Int = nums.count - 1
+    var low: Int = 0
+    
+    while low <= high {
+        
+        let mid = (high + low) / 2
+        
+        if nums[mid] == target {
+            return mid
+        }
+        
+        // Bottom half is NOT rotated...
+        if nums[mid] >= nums[low] {
+            
+            // and if the target falls in between, and is less than the middle
+            if target >= nums[low] && target < nums[mid] {
+                // move the highpoint down one
+                high = mid - 1
+            } else {
+                // Otherwise look at the other half of the array
+                low = mid + 1
+            }
+            
+        // Bottom half IS rotated...
+        } else {
+            
+            if target > nums[mid] && target <= nums[high] {
+                low = mid + 1
+            } else {
+                high = mid - 1
+            }
+        }
+        
+    }
+    
+    return -1
+}
+
+searchLog([4, 5, 6, 7, 0, 1, 2], 0) // 4
+searchLog([4, 5, 6, 7, 0, 1, 2], 3) // -1
